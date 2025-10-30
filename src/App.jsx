@@ -1,10 +1,14 @@
 import { useState } from "react";
+import TreeVisualizer from "./components/TreeVisualizer";
+import { ReactFlowProvider } from "reactflow";
 import "./App.css";
 
 function App() {
   const [jsonInput, setJsonInput] = useState("");
   const [parsedData, setParsedData] = useState(null);
   const [error, setError] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResult, setSearchResult] = useState("");
 
   const handleParse = () => {
     try {
@@ -17,40 +21,57 @@ function App() {
     }
   };
 
-  const renderTree = (data) => {
-    if (typeof data === "object" && data !== null) {
-      return (
-        <ul>
-          {Object.entries(data).map(([key, value]) => (
-            <li key={key}>
-              <strong>{key}:</strong> {typeof value === "object" ? renderTree(value) : String(value)}
-            </li>
-          ))}
-        </ul>
-      );
-    }
-    return String(data);
-  };
-
   return (
     <div className="container">
       <h1>JSON Tree Visualizer</h1>
-      <textarea
-        rows="10"
-        cols="50"
-        placeholder="Enter your JSON here..."
-        value={jsonInput}
-        onChange={(e) => setJsonInput(e.target.value)}
-      ></textarea>
-      <br />
-      <button onClick={handleParse}>Visualize JSON</button>
-      {error && <p className="error">{error}</p>}
-      {parsedData && (
-        <div className="output">
-          <h2>JSON Structure</h2>
-          {renderTree(parsedData)}
+
+      <div className="content">
+        <div className="input-section">
+          <textarea
+            placeholder="Enter your JSON here..."
+            value={jsonInput}
+            onChange={(e) => setJsonInput(e.target.value)}
+            className="json-input"
+          ></textarea>
+
+          <button onClick={handleParse}>Visualize JSON</button>
+          {error && <p className="error">{error}</p>}
         </div>
-      )}
+
+        {parsedData && (
+          <div className="output">
+            <h2>JSON Tree Structure</h2>
+
+            <input
+              type="text"
+              placeholder="Search by JSON path (e.g. $.user.name)"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              style={{
+                width: "50%",
+                padding: "8px",
+                marginBottom: "10px",
+                borderRadius: "6px",
+                border: "1px solid #ccc",
+              }}
+            />
+
+            <ReactFlowProvider>
+              <TreeVisualizer
+                data={parsedData}
+                searchQuery={searchQuery}
+                setSearchResult={setSearchResult}
+              />
+            </ReactFlowProvider>
+
+            {searchResult && (
+              <p style={{ color: searchResult.includes("No") ? "red" : "green" }}>
+                {searchResult}
+              </p>
+            )}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

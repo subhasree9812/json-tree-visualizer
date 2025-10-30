@@ -1,50 +1,124 @@
+/* Fullscreen container */
 .container {
-  text-align: center;
-  margin: 40px auto;
-  max-width: 700px;
-  background: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh; 
+  width: 100vw;  /* full screen width */
+  background-color: #3ba6ed;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Title */
+h1 {
+  color: white;
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+/* Flex row for boxes */
+.content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+  width: 100%;
+  height: 80%;
+}
+
+.json-input::placeholder {
+    color: white; 
+    opacity: 0.7; 
+  }
+
+
+/* Equal square boxes */
+.input-section,
+.output {
+  width: 600px;
+  height: 600px;
+  border-radius: 20px;
   padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+/* Input section */
+.input-section {
+  background-color: #111;
+  color: white;
 }
 
 textarea {
+  flex: 1;
   width: 100%;
+  background-color: #bb44e6;
+  color: white;
   font-family: monospace;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
   padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
+  resize: none;
 }
 
 button {
   background-color: #007bff;
   color: white;
   border: none;
-  padding: 10px 20px;
-  border-radius: 6px;
+  padding: 10px 15px;
+  border-radius: 8px;
   cursor: pointer;
   margin-top: 10px;
+  transition: background 0.3s ease;
 }
 
 button:hover {
   background-color: #0056b3;
 }
 
-.error {
-  color: red;
-  margin-top: 10px;
-}
-
+/* Output section */
 .output {
-  text-align: left;
-  margin-top: 20px;
+  background-color: #111;
+  color: white;
+  overflow: hidden;
+  text-align: center;
 }
 
-ul {
-  list-style-type: none;
-  padding-left: 20px;
+.output h2 {
+  margin-bottom: 10px;
 }
 
-li {
-  margin: 4px 0;
+.output input {
+  margin-bottom: 10px;
+  width: 80%;
+  padding: 8px;
+  border-radius: 6px;
+  border: none;
+  outline: none;
+}
+
+.react-flow__attribution {
+  display: none !important;
+}
+
+/* Responsive for smaller screens */
+@media (max-width: 1000px) {
+  .content {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .input-section,
+  .output {
+    width: 80%;
+    height: 400px;
+  }
 }
